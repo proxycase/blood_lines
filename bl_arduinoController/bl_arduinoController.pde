@@ -6,15 +6,17 @@ int val;        // Data received from the serial port
 void setup() 
 {
   size(200, 200);
-  String portName = Serial.list()[1];
+  String[] portNames = Serial.list();
+  printArray(portNames);
+  String portName = Serial.list()[10];
   println(portName);
   myPort = new Serial(this, portName, 9600);
   myPort.clear();
 }
 
 void draw() {
-  while(myPort.available() > 0) {
-    String inputString = myPort.readStringUntil(10);
+  if(myPort.available() > 0) {
+    String inputString = myPort.readStringUntil('\n');
     if (inputString != null) {
       println(inputString);
     }
@@ -23,7 +25,7 @@ void draw() {
 
 void mouseClicked() {
   println("clicked");
-  myPort.write("2,2000|");
+  myPort.write((int)random(10)+","+(int)random(2000)+"|");
 }
 
 //void serialEvent(Serial myPort) {
