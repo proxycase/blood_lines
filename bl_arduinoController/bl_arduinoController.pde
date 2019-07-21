@@ -26,6 +26,7 @@ void draw() {
 void mouseClicked() {
   println("clicked");
   myPort.write((int)random(10)+","+(int)random(2000)+"|");
+  
 }
 
 //void serialEvent(Serial myPort) {
