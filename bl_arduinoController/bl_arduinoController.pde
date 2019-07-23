@@ -1,39 +1,47 @@
-import processing.serial.*;
+/*
+* Blood Lines - Processing on Raspberry Pi
+* Reads through the notes in CSV format and sends
+* signal to an Arduino equipped with motors to play individual notes.
+*/
 
-Serial myPort;  // Create object from Serial class
-int val;        // Data received from the serial port
+float startTime;
 
 void setup() 
 {
   size(200, 200);
-  String[] portNames = Serial.list();
-  printArray(portNames);
-  String portName = Serial.list()[10];
-  println(portName);
-  myPort = new Serial(this, portName, 9600);
-  myPort.clear();
+  setupComms();
+  setupTable();
+  startTime = getCurrTime();
 }
 
 void draw() {
-  if(myPort.available() > 0) {
-    String inputString = myPort.readStringUntil('\n');
-    if (inputString != null) {
-      println(inputString);
-    }
+  //checkComms();
+  loopData();
+}
+
+void loopData() {
+  // current Time
+  float triggerTime = blTable.getTime();
+  float curTime = getTimeDiff();
+  
+  if (triggerTime <= curTime) {
+    println("reached time");
+    sendComms(blTable.getWire(), blTable.getDuration());
+    if (blTable.next()) {resetCurrTime();}
+  } else {
+    println("currently: " + curTime + " waiting for: " + triggerTime);
   }
 }
 
-void mouseClicked() {
-  println("clicked");
-  myPort.write((int)random(10)+","+(int)random(2000)+"|");
-  
+float getCurrTime() {
+  return ((float)(hour()*100) + (float)minute() + (float)second()/60);
 }
 
-//void serialEvent(Serial myPort) {
-//  if (myPort.available() > 0) {
-//    String inputString = myPort.readStringUntil(10);
-//    if (inputString != null) {
-//      println(inputString);
-//    }
-//  }
-//}
+float getTimeDiff() {
+  return getCurrTime() - startTime;
+}
+
+void resetCurrTime() {
+  // needed for when time:60 is reached
+  startTime = getCurrTime();
+}

@@ -1,7 +1,7 @@
-String inputString = "";
-
+String inputString;
 void setupComms() {
   Serial.begin(9600);
+  inputString = "";
 }
 
 void loopComms() {
@@ -17,7 +17,7 @@ void parseInput(String s) {
   int delimAt = s.indexOf(',');
 
   if (delimAt > -1) {
-    runMotor(
+    activateMotor(
       s.substring(0, delimAt).toInt(), 
       s.substring(delimAt+1).toInt()
     );

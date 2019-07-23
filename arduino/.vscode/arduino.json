@@ -1,0 +1,4 @@
+{
+    "board": "arduino:avr:leonardo",
+    "sketch": "bl_singleCommsTest/bl_singleCommsTest.ino"
+}
