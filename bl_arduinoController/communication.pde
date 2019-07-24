@@ -1,13 +1,12 @@
 import processing.serial.*;
 
 Serial myPort;  // Create object from Serial class
-boolean commsEnabled = false;
 int val;        // Data received from the serial port
 
 void setupComms() {
   String[] portNames = Serial.list();
   printArray(portNames);
-  String portName = Serial.list()[10];
+  String portName = Serial.list()[0];
   println(portName);
   myPort = new Serial(this, portName, 9600);
   //try {

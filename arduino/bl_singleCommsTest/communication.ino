@@ -11,6 +11,8 @@ void loopComms() {
     
     parseInput(inputString);
   }
+
+  yield();
 }
 
 void parseInput(String s) {

@@ -5,6 +5,7 @@
 */
 
 float startTime;
+boolean debug = false;
 
 void setup() 
 {
@@ -29,7 +30,7 @@ void loopData() {
     sendComms(blTable.getWire(), blTable.getDuration());
     if (blTable.next()) {resetCurrTime();}
   } else {
-    println("currently: " + curTime + " waiting for: " + triggerTime);
+    if (debug) println("currently: " + curTime + " waiting for: " + triggerTime);
   }
 }
 
