@@ -1,18 +1,32 @@
-String inputString;
+String inputString = "";
+bool stringComplete = false;
+
 void setupComms() {
   Serial.begin(9600);
-  inputString = "";
+  inputString.reserve(200);
+
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
 }
 
 void loopComms() {
-  if(Serial.available()) {
-    inputString = Serial.readStringUntil('|');
-    Serial.println("got: " + inputString); 
-    
+  if(stringComplete) {
+    Serial.println(inputString);
     parseInput(inputString);
+    inputString = "";
+    stringComplete = false;
   }
+}
 
-  yield();
+void serialEvent() {
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    inputString += inChar;
+    if (inChar == '|' || inChar == '\n') {
+      stringComplete = true;
+    }
+  }
 }
 
 void parseInput(String s) {
