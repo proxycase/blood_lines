@@ -8,9 +8,9 @@ void keyPressed() {
   }
 }
 
-// THIS IS USED FOR TESTING SIGNAL
-void mouseClicked() {
-  println("clicked");
-  myPort.write((int)random(10)+","+(int)random(2000)+"|");
+//// THIS IS USED FOR TESTING SIGNAL
+//void mouseClicked() {
+//  println("clicked");
+//  myPort.write((int)random(10)+","+(int)random(2000)+"|");
   
-}
+//}

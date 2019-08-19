@@ -6,17 +6,8 @@ int val;        // Data received from the serial port
 void setupComms() {
   String[] portNames = Serial.list();
   printArray(portNames);
-  String portName = Serial.list()[0];
-  println(portName);
-  myPort = new Serial(this, portName, 9600);
-  //try {
-  //  myPort = new Serial(this, "/dev/ttyUSB0", 9600);
-  //  myPort.clear();
-  //  commsEnabled = true;
-  //} catch (RuntimeException r) {
-  //  r.printStackTrace();
-  //  return;
-  //}
+  myPort = new Serial(this, "/dev/ttyACM0", 9600);
+
 }
 
 void checkComms() {

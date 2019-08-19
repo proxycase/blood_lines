@@ -5,18 +5,20 @@
 */
 
 float startTime;
-boolean debug = false;
+boolean debug = true;
 
 void setup() 
 {
-  size(200, 200);
+  size(600, 600);
+  frameRate(2);
   setupComms();
   setupTable();
   startTime = getCurrTime();
+  setupConsole();
 }
 
 void draw() {
-  //checkComms();
+  drawConsole();
   loopData();
 }
 
@@ -35,7 +37,10 @@ void loopData() {
 }
 
 float getCurrTime() {
-  return ((float)(hour()*100) + (float)minute() + (float)second()/60);
+  //float k = ((float)(hour()*100) + (float)minute() + (float)second()/100);
+  float k = millis()/1000;
+  print("current time: " + k );
+  return k;
 }
 
 float getTimeDiff() {
