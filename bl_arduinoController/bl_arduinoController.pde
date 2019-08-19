@@ -37,9 +37,7 @@ void loopData() {
 }
 
 float getCurrTime() {
-  //float k = ((float)(hour()*100) + (float)minute() + (float)second()/100);
   float k = millis()/1000;
-  print("current time: " + k );
   return k;
 }
 
