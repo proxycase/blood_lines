@@ -129,7 +129,7 @@ void setupMotors() {
   }
 
   for (AccelStepper k : accelStepper) {
-    k.setMaxSpeed(100.0);
+    k.setMaxSpeed(200.0);
     k.setAcceleration(100.0);
     k.moveTo(0);
   }
@@ -145,8 +145,6 @@ void runMotors() {
 
 // called from communication
 void activateMotor(int i, int k) {
-  // run motor i at k seconds
-  accelStepper[i].setAcceleration(100.0);
   accelStepper[i].moveTo(24 * k); // need to still figure out what equates to an ~second in step-time
 }
 

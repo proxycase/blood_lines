@@ -1,11 +1,12 @@
 /*
 * Blood Lines - Processing on Raspberry Pi
-* Reads through the notes in CSV format and sends
-* signal to an Arduino equipped with motors to play individual notes.
-*/
+ * Reads through the notes in CSV format and sends
+ * signal to an Arduino equipped with motors to play individual notes.
+ */
 
 float startTime;
 boolean debug = true;
+boolean reachedEnd = false;
 
 void setup() 
 {
@@ -26,11 +27,15 @@ void loopData() {
   // current Time
   float triggerTime = blTable.getTime();
   float curTime = getTimeDiff();
-  
+
   if (triggerTime <= curTime) {
     println("reached time");
     sendComms(blTable.getWire(), blTable.getDuration());
-    if (blTable.next()) {resetCurrTime();}
+    blTable.next();
+    if (reachedEnd) {
+      resetCurrTime();
+      reachedEnd = false;
+    }
   } else {
     if (debug) println("currently: " + curTime + " waiting for: " + triggerTime);
   }

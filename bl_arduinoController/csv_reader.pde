@@ -15,21 +15,25 @@ class BL_Table {
     println(table.getRowCount() + " total rows in table");
     position = 0;
   }
+  
+  // update grabs the current row for attention
   void update() {
     row = table.getRow(position);
     println("updated row: " + position);
   }
   
-  boolean next() {
+  void next() {
     if (!(position >= table.getRowCount()-1)) {
       position++;
       this.update();
-      return false;
+      //return false;
     } else {
       println("reached end, resetting");
       position = 0;
       this.update();
-      return true;
+      
+      // set flag so that we can reset time to 0
+      reachedEnd = true;
     }
   }
   
