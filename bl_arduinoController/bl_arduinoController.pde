@@ -4,53 +4,60 @@
  * signal to an Arduino equipped with motors to play individual notes.
  */
 
-float startTime;
-boolean debug = true;
+boolean DEBUG = true;
 boolean reachedEnd = false;
+
+SystemTimeKeeper systime;
 
 void setup() 
 {
   size(600, 600);
   frameRate(2);
+
+  // initiate communications to arduino
   setupComms();
+
+  // initiate table reader
   setupTable();
-  startTime = getCurrTime();
+
+  // initiate timekeeper
+  systime = new SystemTimeKeeper();
+
+  // setup console to screen printer
   setupConsole();
 }
 
 void draw() {
   drawConsole();
-  loopData();
+
+  // update the system time
+  systime.update();
+  int curTimeSeconds = systime.getTimeSeconds();
+
+  // check if it's time to trigger a motor
+  checkTable(curTimeSeconds);
 }
 
-void loopData() {
-  // current Time
-  float triggerTime = blTable.getTime();
-  float curTime = getTimeDiff();
+void checkTable(int time) {
+  int tableTriggerTime = blTable.getTriggerTime();
 
-  if (triggerTime <= curTime) {
+  if (tableTriggerTime <= time) {
     println("reached time");
+
+    // send wire signal
     sendComms(blTable.getWire(), blTable.getDuration());
+
+    // move to next row in table
     blTable.next();
+
+
+    // -- TODO: move function to inside blTable
+    // reset if reached end of table
     if (reachedEnd) {
-      resetCurrTime();
+      systime.reset();
       reachedEnd = false;
     }
   } else {
-    if (debug) println("currently: " + curTime + " waiting for: " + triggerTime);
+    if (DEBUG) println("currently: " + systime.getTimeSeconds() + " waiting for: " + tableTriggerTime);
   }
-}
-
-float getCurrTime() {
-  float k = millis()/1000;
-  return k;
-}
-
-float getTimeDiff() {
-  return getCurrTime() - startTime;
-}
-
-void resetCurrTime() {
-  // needed for when time:60 is reached
-  startTime = getCurrTime();
 }

@@ -2,7 +2,7 @@ BL_Table blTable;
 
 void setupTable() {
   blTable = new BL_Table();
-  blTable.update();
+  blTable.loadRow();
 }
 
 class BL_Table {
@@ -14,23 +14,26 @@ class BL_Table {
     table = loadTable("bl_timelinenotes.csv", "header");
     println(table.getRowCount() + " total rows in table");
     position = 0;
+
+    row = table.getRow(position);
+    println("loadRow row: " + position);
   }
   
-  // update grabs the current row for attention
-  void update() {
+  // loadRow grabs the current row for attention
+  void loadRow() {
     row = table.getRow(position);
-    println("updated row: " + position);
+    println("loadRow row: " + position);
   }
   
   void next() {
     if (!(position >= table.getRowCount()-1)) {
       position++;
-      this.update();
+      this.loadRow();
       //return false;
     } else {
       println("reached end, resetting");
       position = 0;
-      this.update();
+      this.loadRow();
       
       // set flag so that we can reset time to 0
       reachedEnd = true;
@@ -40,22 +43,22 @@ class BL_Table {
   void prev() {
     if (!(position <= 0)) {
       position--;
-      this.update();
+      this.loadRow();
     } else {
       println("cant go further back");
     }
   }
   
   void printout() {
-    println("wire: " + getWire() + " time: " + getTime() + " dur: " + getDuration());
+    println("wire: " + getWire() + " time: " + getTriggerTime() + " dur: " + getDuration());
   }
   
   int getWire() {
     return row.getInt("Wire");
   }
   
-  float getTime() {
-    return row.getFloat("Time");
+  int getTriggerTime() {
+    return row.getInt("Time");
   }
   
   int getDuration() {

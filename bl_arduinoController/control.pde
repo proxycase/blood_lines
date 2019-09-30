@@ -5,5 +5,7 @@ void keyPressed() {
     blTable.next();
   } else if (key == 'k') {
     blTable.printout();
+  } else if (key == 'r') {
+    systime.reset();
   }
 }
