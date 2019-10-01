@@ -9,6 +9,7 @@ class BL_Table {
   Table table;
   TableRow row;
   int position;
+  boolean finished;
 
   BL_Table() {
     table = loadTable("bl_timelinenotes.csv", "header");
@@ -17,6 +18,7 @@ class BL_Table {
 
     row = table.getRow(position);
     println("loadRow row: " + position);
+    finished = false;
   }
   
   // loadRow grabs the current row for attention
@@ -36,7 +38,7 @@ class BL_Table {
       this.loadRow();
       
       // set flag so that we can reset time to 0
-      reachedEnd = true;
+      this.finished = true;
     }
   }
   

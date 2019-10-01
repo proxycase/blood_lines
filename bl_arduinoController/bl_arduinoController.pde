@@ -5,7 +5,6 @@
  */
 
 boolean DEBUG = true;
-boolean reachedEnd = false;
 
 SystemTimeKeeper systime;
 
@@ -69,12 +68,10 @@ void checkTable(int time) {
     // move to next row in table
     blTable.next();
 
-
-    // -- TODO: move function to inside blTable
     // reset if reached end of table
-    if (reachedEnd) {
+    if (blTable.finished) {
       systime.reset();
-      reachedEnd = false;
+      blTable.finished = false;
     }
   } else {
     if (DEBUG) println("currently: " + systime.getTimeSeconds() + " waiting for: " + tableTriggerTime);
