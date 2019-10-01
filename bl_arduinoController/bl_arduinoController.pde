@@ -12,9 +12,10 @@ RuntimeScheduler rts;
 final int SLEEP_TIME = 3000;
 
 int[][] schedule = {
-  {Calendar.SATURDAY,  9,  17},
-  {Calendar.SUNDAY,    10, 19},
-  {Calendar.MONDAY,    22, 25}
+  {Calendar.TUESDAY,    11,  14},
+  {Calendar.THURSDAY,   11,  14},
+  {Calendar.FRIDAY,     11,  14},
+  {Calendar.SATURDAY,   14,  16}
 };
 
 void setup() 
