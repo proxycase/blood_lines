@@ -9,6 +9,15 @@ boolean reachedEnd = false;
 
 SystemTimeKeeper systime;
 
+RuntimeScheduler rts;
+final int SLEEP_TIME = 3000;
+
+int[][] schedule = {
+  {Calendar.SATURDAY,  9,  17},
+  {Calendar.SUNDAY,    10, 19},
+  {Calendar.MONDAY,    22, 25}
+};
+
 void setup() 
 {
   size(600, 600);
@@ -25,17 +34,27 @@ void setup()
 
   // setup console to screen printer
   setupConsole();
+
+  // setup schedule
+  rts = new RuntimeScheduler(3, schedule);
 }
 
 void draw() {
   drawConsole();
 
-  // update the system time
-  systime.update();
-  int curTimeSeconds = systime.getTimeSeconds();
+  rts.update();
+  println("ACTIVE STATE: " + rts.active());
 
-  // check if it's time to trigger a motor
-  checkTable(curTimeSeconds);
+  if (rts.active()) {
+    // update the system time
+    systime.update();
+    int curTimeSeconds = systime.getTimeSeconds();
+
+    // check if it's time to trigger a motor
+    checkTable(curTimeSeconds);
+  } else {
+    delay(SLEEP_TIME);
+  }
 }
 
 void checkTable(int time) {
