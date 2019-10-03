@@ -20,5 +20,6 @@ void checkComms() {
 }
 
 void sendComms(int wire, int duration) {
+  wire = wire - 1;
   myPort.write(wire + "," + duration + "|");
 }
