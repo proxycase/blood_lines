@@ -31,7 +31,7 @@ class BL_Table {
     if (!(position >= table.getRowCount()-1)) {
       position++;
       this.loadRow();
-      //return false;
+
     } else {
       println("reached end, resetting");
       position = 0;
