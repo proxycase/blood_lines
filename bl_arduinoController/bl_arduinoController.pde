@@ -5,6 +5,7 @@
  */
 
 boolean DEBUG = true;
+boolean USE_SCHEDULER = true;
 
 SystemTimeKeeper systime;
 
@@ -45,7 +46,9 @@ void draw() {
   rts.update();
   println("ACTIVE STATE: " + rts.active());
 
-  if (rts.active()) {
+  if (USE_SCHEDULER) {
+    
+  } else if (rts.active()) {
     // update the system time
     systime.update();
     int curTimeSeconds = systime.getTimeSeconds();
