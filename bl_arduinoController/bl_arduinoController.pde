@@ -5,7 +5,7 @@
  */
 
 boolean DEBUG = true;
-boolean USE_SCHEDULER = true;
+boolean USE_SCHEDULER = false;
 
 SystemTimeKeeper systime;
 
@@ -30,11 +30,11 @@ void setup()
   // initiate table reader
   setupTable();
 
-  // initiate timekeeper
-  systime = new SystemTimeKeeper();
-
   // setup console to screen printer
   setupConsole();
+
+  // initiate timekeeper
+  systime = new SystemTimeKeeper();
 
   // setup schedule
   rts = new RuntimeScheduler(3, schedule);
@@ -44,20 +44,24 @@ void draw() {
   drawConsole();
 
   rts.update();
-  println("ACTIVE STATE: " + rts.active());
 
-  if (USE_SCHEDULER) {
-    
-  } else if (rts.active()) {
-    // update the system time
+  if (USE_SCHEDULER && rts.active()) {
+    runSystem();
+  } else if (!USE_SCHEDULER) {
+    runSystem();
+  } else {
+    println("ACTIVE STATE: " + rts.active());
+    delay(SLEEP_TIME);
+  }
+}
+
+void runSystem() {
+  // update the system time
     systime.update();
     int curTimeSeconds = systime.getTimeSeconds();
 
     // check if it's time to trigger a motor
     checkTable(curTimeSeconds);
-  } else {
-    delay(SLEEP_TIME);
-  }
 }
 
 void checkTable(int time) {
