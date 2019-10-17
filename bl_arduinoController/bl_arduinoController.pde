@@ -5,7 +5,7 @@
  */
 
 boolean DEBUG = true;
-boolean USE_SCHEDULER = false;
+boolean USE_SCHEDULER = true;
 
 SystemTimeKeeper systime;
 
