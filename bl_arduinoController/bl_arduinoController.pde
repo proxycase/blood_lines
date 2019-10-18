@@ -16,7 +16,8 @@ int[][] schedule = {
   {Calendar.TUESDAY,    11,  14},
   {Calendar.THURSDAY,   11,  14},
   {Calendar.FRIDAY,     11,  14},
-  {Calendar.SATURDAY,   14,  16}
+  {Calendar.SATURDAY,   14,  16},
+  {Calendar.SUNDAY,   12,  17}
 };
 
 void setup() 
