@@ -12,16 +12,18 @@ SystemTimeKeeper systime;
 RuntimeScheduler rts;
 final int SLEEP_TIME = 3000;
 
-int[][] schedule = {
+int DAY_COUNT = 5;
+
+int[][] MAIN_SCHEDULE = {
   {Calendar.TUESDAY,    11,  14},
   {Calendar.THURSDAY,   11,  14},
   {Calendar.FRIDAY,     11,  14},
-  {Calendar.SATURDAY,   14,  16},
+  {Calendar.SATURDAY,   10,  16},
   {Calendar.SUNDAY,   12,  17}
 };
 
 void setup() 
-{
+{  
   size(600, 600);
   frameRate(2);
 
@@ -38,13 +40,21 @@ void setup()
   systime = new SystemTimeKeeper();
 
   // setup schedule
-  rts = new RuntimeScheduler(3, schedule);
+  rts = new RuntimeScheduler(MAIN_SCHEDULE);
+  
+  delay(3000);
 }
 
 void draw() {
   drawConsole();
 
   rts.update();
+  
+  if (rts.active()) {
+    print("active: ");
+  } else {
+    print("inactive: ");
+  }
 
   if (USE_SCHEDULER && rts.active()) {
     runSystem();
@@ -83,6 +93,6 @@ void checkTable(int time) {
       blTable.finished = false;
     }
   } else {
-    if (DEBUG) println("currently: " + systime.getTimeSeconds() + " waiting for: " + tableTriggerTime);
+    println("now: " + systime.getTimeSeconds() + " next: " + tableTriggerTime);
   }
 }

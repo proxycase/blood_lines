@@ -15,9 +15,9 @@ class RuntimeScheduler {
   int[][] schedule;
   Calendar calendar;
 
-  RuntimeScheduler(int _count, int[][] _schedule) {
-    dayCount = _count;
-    schedule = _schedule;
+  RuntimeScheduler(int[][] _schedule) {
+    dayCount = _schedule.length;
+    this.schedule = _schedule;
     calendar = Calendar.getInstance();
     this.update();
   }
@@ -29,8 +29,9 @@ class RuntimeScheduler {
   /** Returns true if current time is within stated running times */
   boolean active() {    
     for (int i = 0; i < this.dayCount; i++) {
-      if (matchDay(this.getDayOfWeek(), schedule[i][0])) {
-        return matchHours(this.getHour(), schedule[i][1], schedule[i][2]);
+      if (matchDay(this.getDayOfWeek(), this.schedule[i][0])) {
+        if (DEBUG) println("matched day of week");
+        return matchHours(this.getHour(), this.schedule[i][1], this.schedule[i][2]);
       }
     }
     return false;
